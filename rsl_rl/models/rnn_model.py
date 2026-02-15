@@ -33,6 +33,7 @@ class RNNModel(MLPModel):
         output_dim: int,
         hidden_dims: tuple[int] | list[int] = [256, 256, 256],
         activation: str = "elu",
+        last_activation: str | None = None,
         obs_normalization: bool = False,
         stochastic: bool = False,
         init_noise_std: float = 1.0,
@@ -51,6 +52,7 @@ class RNNModel(MLPModel):
             output_dim: Dimension of the output.
             hidden_dims: Hidden dimensions of the MLP.
             activation: Activation function of the MLP.
+            last_activation: Activation function of the last MLP layer. None results in a linear last layer.
             obs_normalization: Whether to normalize the observations before feeding them to the MLP.
             stochastic: Whether the model outputs stochastic or deterministic values.
             init_noise_std: Initial standard deviation of the stochatic output.
@@ -70,6 +72,7 @@ class RNNModel(MLPModel):
             output_dim,
             hidden_dims,
             activation,
+            last_activation,
             obs_normalization,
             stochastic,
             init_noise_std,

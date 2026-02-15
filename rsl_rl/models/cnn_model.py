@@ -35,6 +35,7 @@ class CNNModel(MLPModel):
         cnns: nn.ModuleDict | dict[str, nn.Module] | None = None,
         hidden_dims: tuple[int] | list[int] = [256, 256, 256],
         activation: str = "elu",
+        last_activation: str | None = None,
         obs_normalization: bool = False,
         stochastic: bool = False,
         init_noise_std: float = 1.0,
@@ -52,6 +53,7 @@ class CNNModel(MLPModel):
             cnn_cfg: Configuration of the CNN encoder(s).
             cnns: CNN modules to use, e.g., for sharing CNNs between actor and critic. If None, new CNNs are created.
             activation: Activation function of the CNN and MLP.
+            last_activation: Activation function of the last MLP layer. None results in a linear last layer.
             obs_normalization: Whether to normalize the observations before feeding them to the MLP.
             stochastic: Whether the model outputs stochastic or deterministic values.
             init_noise_std: Initial standard deviation of the stochatic output.
@@ -99,6 +101,7 @@ class CNNModel(MLPModel):
             output_dim,
             hidden_dims,
             activation,
+            last_activation,
             obs_normalization,
             stochastic,
             init_noise_std,

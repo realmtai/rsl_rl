@@ -33,6 +33,7 @@ class MLPModel(nn.Module):
         output_dim: int,
         hidden_dims: tuple[int] | list[int] = [256, 256, 256],
         activation: str = "elu",
+        last_activation: str | None = None,
         obs_normalization: bool = False,
         stochastic: bool = False,
         init_noise_std: float = 1.0,
@@ -48,6 +49,7 @@ class MLPModel(nn.Module):
             output_dim: Dimension of the output.
             hidden_dims: Hidden dimensions of the MLP.
             activation: Activation function of the MLP.
+            last_activation: Activation function of the last MLP layer. None results in a linear last layer.
             obs_normalization: Whether to normalize the observations before feeding them to the MLP.
             stochastic: Whether the model outputs stochastic or deterministic values.
             init_noise_std: Initial standard deviation of the stochatic output.
@@ -69,9 +71,9 @@ class MLPModel(nn.Module):
         # MLP
         self.state_dependent_std = state_dependent_std
         if state_dependent_std and stochastic:
-            self.mlp = MLP(self._get_latent_dim(), [2, output_dim], hidden_dims, activation)
+            self.mlp = MLP(self._get_latent_dim(), [2, output_dim], hidden_dims, activation, last_activation)
         else:
-            self.mlp = MLP(self._get_latent_dim(), output_dim, hidden_dims, activation)
+            self.mlp = MLP(self._get_latent_dim(), output_dim, hidden_dims, activation, last_activation)
 
         # Stochasticity
         self.stochastic = stochastic
